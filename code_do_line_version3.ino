@@ -1,4 +1,4 @@
-//đường đen là chữ S 
+//đường đen vòng tròn khép kín 
 // IR Sensors_ Khai báo 5 chân của sensor 
 int sensor1 = A0;      // Left most sensor
 int sensor2 = A1;
@@ -55,30 +55,9 @@ void loop()
 {
   read_sensor_values();
   Serial.print(error);
-  if ((error == 100)||(error == -4)||(error == -3)||(error == -2)||(error == -1)) {               // Rẽ Trái 90* cho đến khi quay lại đường đen    Make left turn untill it detects straight path
-    
-    do {                            // Quay sang trái cho tới khi phát hiện ngay giữa line
-      left();
-      delay(100);
-      analogWrite(ENA, 80);        //Left Motor Speed
-      analogWrite(ENB, 90);         //Right Motor Speed
-      read_sensor_values();
-    } while (error == 0);
-  }
-  else if ((error == 1)||(error == 2)||(error == 3)||(error == 4)) {               
-    
-    do {                            
-      right();
-      delay(100);
-      analogWrite(ENA, 80);        
-      analogWrite(ENB, 90);        
-      read_sensor_values();
-    } while (error == 0);
-
-  }else if (error == 0){
-    calculate_pid();                  // Tính giá trị PID
-    motor_control();                  // Điều chỉnh motor theo giá trị PID mới tính, cho xe chạy thẳng
-      }
+  calculate_pid();                  // Tính giá trị PID
+  motor_control();                  // Điều chỉnh motor theo giá trị PID mới tính, cho xe chạy thẳng
+      
 }
 
 
