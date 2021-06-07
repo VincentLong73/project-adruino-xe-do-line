@@ -48,9 +48,9 @@ void loop() {
 
 void doline()
 {
-  switch (trangThai5CamBien())
+  switch (lechvach5mat())
   {
-    case 200:// đã đi hết line chữ S  
+    case 200:// đã đi hết line chữ S  , ta cho xe quay phải đến khi xe gặp lại vạch đen
       
       Tien(SpMaxL,SpMaxR-40);
       
@@ -90,47 +90,7 @@ boolean IFSensor (byte PinNumb)
   return (!digitalRead (PinNumb));
 }
 
-int trangThai5CamBien ()
-{
-  /*
-      Âm là lệch phải
-      Dương là lệch trái
-      Mức độ lệch giảm tăng dần : 1 2 3
-  */
-  int sens1 = IFSensor(A0);
-  int sens2 = IFSensor(A1);
-  int sens3 = IFSensor(A2);
-  int sens4 = IFSensor(A3);
-  int sens5 = IFSensor(A4);
-  switch (lechvach5mat())
-  {
-    case -3:
-      return -3;
-      break;
-    case -2:
-      return -2;
-      break;
-    case -1:
-      return -1;
-      break;
-    case 0:
-      if ( (abs(sens1) + abs(sens2) + abs(sens3) + abs(sens4) + abs(sens5)) == 0)
-        return 200;
-      else
-        return 0;
-      break;
-    case 1:
-      return 1;
-      break;
-    case 2:
-      return 2;
-      break;
-    case 3:
-      return 3;
-      break;
 
-  }
-}
 int lechvach5mat()
 {
   /*
@@ -147,25 +107,28 @@ int lechvach5mat()
   switch (lechvach)
   {
     case -3:// cái này là do 2 mắt biên đều chạm vạch
-      return -2;
+      return -2;// trả về trạng thái cảm biến bằng -2 do S1+s2 sáng  
       break;
     case -2:
-      return -3;
+      return -3;// trả về trạng thái cảm biến bằng -3 do  S1 sáng
       break;
     case -1:
-      return -1;
+      return -1;// trả về trạng thái cảm biến bằng -1 do đèn s2 sáng 
       break;
-    case 0:
-      return 0;
+    case 0:// ở trạng thái này tất cả các đèn cùng tắt hoặc chỉ đèn S3 sáng
+      if ( (abs(sens1) + abs(sens2) + abs(sens3) + abs(sens4) + abs(sens5)) == 0)//lấy giá trị tuyệt đối tín hiệu các đèn, Nếu tổng giá trị tuyệt dối bằng 0, đen ko sáng, xe đã đi hết chứ S
+              return 200;
+      else // còn nếu không thì 
+        return 0;
       break;
     case 1:
-      return 1;
+      return 1;// trả về trạng thái cảm biến bằng 1 do đèn s4 sáng 
       break;
     case 2:
-      return 3;
+      return 3;// trả về trạng thái cảm biến bằng 3 do đèn s5 sáng 
       break;
     case 3:
-      return 2;
+      return 2;// trả về trạng thái cảm biến bằng 2 do đèn ss4 +s5 sáng
       break;
 
   }
