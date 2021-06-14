@@ -37,6 +37,7 @@ void setup() {
 }
 
 void loop() {
+  
   if(digitalRead(linesens3) == LOW)
     online = 1;
   if(digitalRead(linesens2) == LOW  || digitalRead(linesens1) == LOW)
@@ -45,9 +46,17 @@ void loop() {
       online = 2;
   if(digitalRead(linesens3) == HIGH  && digitalRead(linesens4) == HIGH  && digitalRead(linesens2) == HIGH ){
       counter++;
+      if((counter < 10000)&&(online ==2 ))
+        online = 2;
+      if((counter < 10000)&&(online ==0 ))
+        online = 0;
+      if((counter < 10000)&&(online==1 ))
+        online = 2;
       if(counter == 10000)
         online = 3;
-    } else counter = 0;
+      
+    } 
+  
   switch(online){
     case 1: dithang(); break;
     case 0: retrai(); break;

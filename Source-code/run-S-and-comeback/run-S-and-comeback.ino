@@ -37,17 +37,26 @@ void setup() {
 }
 
 void loop() {
-  if(digitalRead(linesens3) == LOW)//s3 sáng 
+  
+  if(digitalRead(linesens3) == LOW)
     online = 1;
-  if(digitalRead(linesens2) == LOW  || digitalRead(linesens1) == LOW)//s2 hoặc s1 sáng 
+  if(digitalRead(linesens2) == LOW  || digitalRead(linesens1) == LOW)
       online = 0;
-  if(digitalRead(linesens4) == LOW || digitalRead(linesens5) == LOW) // s4 hoặc s5 sáng 
+  if(digitalRead(linesens4) == LOW || digitalRead(linesens5) == LOW) 
       online = 2;
-  if(digitalRead(linesens3) == HIGH  && digitalRead(linesens4) == HIGH  && digitalRead(linesens2) == HIGH ){// s3,s2,s4 không sáng chứng tỏ bị văng ra khỏi đường đen hoặc đã chạy hết quỹ đạo
+  if(digitalRead(linesens3) == HIGH  && digitalRead(linesens4) == HIGH  && digitalRead(linesens2) == HIGH ){
       counter++;
+      if((counter < 20000)&&(online ==2 ))
+        online = 2;
+      if((counter < 20000)&&(online ==0 ))
+        online = 0;
+      if((counter < 20000)&&(online==1 ))
+        online = 2;
       if(counter == 20000)
         online = 3;
-    } else counter = 0;
+      
+    } 
+  
   switch(online){
     case 1: dithang(); break;
     case 0: retrai(); break;
@@ -87,10 +96,3 @@ void dungxe(){
   digitalWrite(enA, LOW);
   digitalWrite(enB, LOW);
 }
-
-
-
-
-
-
-
